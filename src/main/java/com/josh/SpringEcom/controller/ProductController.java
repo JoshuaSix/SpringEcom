@@ -4,6 +4,7 @@ import com.josh.SpringEcom.model.Product;
 import com.josh.SpringEcom.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{productId}")
-    public ResponseEntity<Product> getProduct(@PathVariable int productId){
+    public ResponseEntity<Product> getProduct(@PathVariable("productId") int productId){
         Product product = productService.getProductById(productId);
         if(product != null){
             return new ResponseEntity<>(product, HttpStatus.OK);
@@ -34,11 +35,39 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/products")
-    public ResponseEntity<?> createProduct(@RequestPart Product product, @RequestPart MultipartFile imageFile) throws IOException {
+    @PostMapping( value = "/products", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createProduct(@RequestPart("product") Product product, @RequestPart("imageFile") MultipartFile imageFile)  {
 
-        Product savedProduct = productService.createProduct(product,imageFile);
+        Product savedProduct = null;
+        try {
+            savedProduct = productService.addorUpdateProduct(product,imageFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/products/{productId}/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable("productId") int productId){
+        Product product = productService.getProductById(productId);
+        if(product != null){
+            return new ResponseEntity<>(product.getImageData(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/products/{productId}")
+    public ResponseEntity<String> updateProduct(@PathVariable int productId,
+                                                @RequestPart Product product,@RequestPart("imageFile") MultipartFile imageFile){
+        Product updatedProduct= null;
+        try {
+            updatedProduct = productService.addorUpdateProduct(product,imageFile);
+            return new ResponseEntity<>("updated successfully!!", HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
 }

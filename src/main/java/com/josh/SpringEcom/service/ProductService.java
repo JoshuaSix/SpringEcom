@@ -25,10 +25,20 @@ public class ProductService {
          return  productRepository.findById(productId).orElse(null);
     }
 
-    public Product createProduct(Product product, MultipartFile imageFile) throws IOException {
+    public Product addorUpdateProduct(Product product, MultipartFile imageFile) throws IOException {
         product.setImageName(imageFile.getOriginalFilename());
         product.setImageType(imageFile.getContentType());
         product.setImageData(imageFile.getBytes());
+
         return productRepository.save(product);
     }
+
+//    public Product updateProduct(Product product,MultipartFile imageFile) throws IOException{
+//        product.setImageName(imageFile.getOriginalFilename());
+//        product.setImageType(imageFile.getContentType());
+//        product.setImageData(imageFile.getBytes());
+//
+//        return productRepository.save(product);
+//
+//    }
 }
