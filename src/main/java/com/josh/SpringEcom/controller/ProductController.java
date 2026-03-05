@@ -67,7 +67,20 @@ public class ProductController {
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/products/{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable int productId,
+                                                @RequestPart Product product,@RequestPart("imageFile") MultipartFile imageFile){
+        String deleteProduct = productService.deleteProduct(productId);
+        if(deleteProduct != null){
+        return new ResponseEntity<>("delete successfully!!", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
+
+
 
 }
