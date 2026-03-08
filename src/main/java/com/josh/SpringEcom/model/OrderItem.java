@@ -1,14 +1,11 @@
 package com.josh.SpringEcom.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.el.lang.ELArithmetic;
+
 
 @Entity
 @Data
@@ -17,6 +14,7 @@ import org.apache.el.lang.ELArithmetic;
 @Builder
 public class OrderItem {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
     @ManyToOne
     private Product product;
