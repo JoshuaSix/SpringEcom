@@ -1,10 +1,11 @@
 package com.josh.SpringEcom.controller;
 
+import java.util.List;
 import com.josh.SpringEcom.dto.OrderItemResponse;
 import com.josh.SpringEcom.dto.OrderRequest;
 import com.josh.SpringEcom.dto.OrderResponse;
+import com.josh.SpringEcom.model.OrderItem;
 import com.josh.SpringEcom.service.OrderService;
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -20,15 +21,15 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/place/order")
-    public ResponseEntity<OrderResponse> placeOrder(@RequestBoby OrderRequest orderRequest){
+    public ResponseEntity<OrderResponse> placeOrder(@RequestBody OrderRequest orderRequest){
         OrderResponse orderResponse = orderService.placeOrderResponse(orderRequest);
         return new ResponseEntity<>(orderResponse,
                 HttpStatus.CREATED);
     }
 
-    @GetMapping("/place")
-    public ResponseEntity<List<OrderItemResponse>> getAllOrder(){
-        List<OrderItemResponse> responses  = orderService.getAllResponse();
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderResponse>> getAllOrder(){
+        List<OrderResponse> responses  = orderService.getAllResponse();
         return new ResponseEntity<>(responses,
                 HttpStatus.OK);
     }

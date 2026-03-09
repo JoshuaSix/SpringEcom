@@ -1,10 +1,10 @@
 package com.josh.SpringEcom.dto;
 
-import org.hibernate.mapping.List;
+
+import java.util.List;
 
 public record OrderRequest(
         String customerName,
         String email,
         List<OrderItemRequest> items
-) {
-}
+) {}

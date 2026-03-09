@@ -32,4 +32,6 @@ public class Product {
     @Lob
     private byte[] imageData;
 
+    public void setStockQuantity(int i) {
+    }
 }

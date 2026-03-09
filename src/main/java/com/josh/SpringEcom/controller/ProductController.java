@@ -57,7 +57,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/products/{productId}")
+    @PutMapping("/products/{productId}")
     public ResponseEntity<String> updateProduct(@PathVariable int productId,
                                                 @RequestPart Product product,@RequestPart("imageFile") MultipartFile imageFile){
         Product updatedProduct= null;
@@ -69,7 +69,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/products/{productId}")
+    @DeleteMapping("/products/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable int productId,
                                                 @RequestPart Product product,@RequestPart("imageFile") MultipartFile imageFile){
         String deleteProduct = productService.deleteProduct(productId);

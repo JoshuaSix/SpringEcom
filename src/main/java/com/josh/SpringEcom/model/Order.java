@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity(name = "orders")
@@ -25,6 +24,6 @@ public class Order {
     private String Status;
     private LocalDate OrderDate;
 
-    @OneToMany(mappedBy = "order", cascade = cascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
 }
